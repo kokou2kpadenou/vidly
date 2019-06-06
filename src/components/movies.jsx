@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import { getMovies } from "./services/fakeMovieService";
-import { getGenres } from "./services/fakeGenreService";
-import Pagination from "./components/common/pagination";
-import ListGroup from "./components/common/listGroup";
-import { paginate } from "./utils/paginate";
-import MoviesTable from "./components/moviesTable";
+import { getMovies } from "../services/fakeMovieService";
+import { getGenres } from "../services/fakeGenreService";
+import Pagination from "./common/pagination";
+import ListGroup from "./common/listGroup";
+import { paginate } from "../utils/paginate";
+import MoviesTable from "./moviesTable";
 
 class Movies extends Component {
   constructor(props) {
@@ -70,33 +70,31 @@ class Movies extends Component {
     );
 
     return (
-      <div className="container">
-        <div className="row">
-          <div className="col-3">
-            <ListGroup
-              items={this.state.genres}
-              selectedItem={this.state.selectedGenreId}
-              onItemSelect={this.handleGenreSelect}
-            />
-          </div>
-          <div className="col">
-            <p className="">{`Showing ${
-              filtered.length
-            } movies in the database.`}</p>
+      <div className="row">
+        <div className="col-3">
+          <ListGroup
+            items={this.state.genres}
+            selectedItem={this.state.selectedGenreId}
+            onItemSelect={this.handleGenreSelect}
+          />
+        </div>
+        <div className="col">
+          <p className="">{`Showing ${
+            filtered.length
+          } movies in the database.`}</p>
 
-            <MoviesTable
-              movies={movies}
-              onClick={this.handleClickDelete}
-              onLike={this.HandleLike}
-            />
+          <MoviesTable
+            movies={movies}
+            onClick={this.handleClickDelete}
+            onLike={this.HandleLike}
+          />
 
-            <Pagination
-              itemsCount={filtered.length}
-              pageSize={this.state.pageSize}
-              currentPage={this.state.currentPage}
-              onPageChange={this.HandlePageChange}
-            />
-          </div>
+          <Pagination
+            itemsCount={filtered.length}
+            pageSize={this.state.pageSize}
+            currentPage={this.state.currentPage}
+            onPageChange={this.HandlePageChange}
+          />
         </div>
       </div>
     );
