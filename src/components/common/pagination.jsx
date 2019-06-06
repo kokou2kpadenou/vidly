@@ -11,14 +11,10 @@ const Pagination = ({ itemsCount, pageSize, currentPage, onPageChange }) => {
   return (
     <nav>
       <ul className="pagination">
-        <li
-          className={
-            currentPage === pagesCount ? "page-item disabled" : "page-item"
-          }
-        >
+        <li className={currentPage === 1 ? "page-item disabled" : "page-item"}>
           <button
             className="page-link"
-            onClick={() => onPageChange(currentPage + 1)}
+            onClick={() => onPageChange(currentPage - 1)}
           >
             Previous
           </button>
@@ -33,10 +29,14 @@ const Pagination = ({ itemsCount, pageSize, currentPage, onPageChange }) => {
             </button>
           </li>
         ))}
-        <li className={currentPage === 1 ? "page-item disabled" : "page-item"}>
+        <li
+          className={
+            currentPage === pagesCount ? "page-item disabled" : "page-item"
+          }
+        >
           <button
             className="page-link"
-            onClick={() => onPageChange(currentPage - 1)}
+            onClick={() => onPageChange(currentPage + 1)}
           >
             Next
           </button>
