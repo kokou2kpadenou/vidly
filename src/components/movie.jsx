@@ -1,21 +1,21 @@
 import React from "react";
 import Like from "./common/like";
 
-const Movie = ({ data, onClick, onLike }) => {
+const Movie = ({ movie, onClick, onLike }) => {
   return (
     <tr>
-      <td>{data.title}</td>
-      <td>{data.genre.name}</td>
-      <td>{data.numberInStock}</td>
-      <td>{data.dailyRentalRate}</td>
+      <td>{movie.title}</td>
+      <td>{movie.genre.name}</td>
+      <td>{movie.numberInStock}</td>
+      <td>{movie.dailyRentalRate}</td>
       <td>
-        <Like liked={data.liked} onClick={() => onLike(data._id)} />
+        <Like liked={movie.liked} onClick={() => onLike(movie._id)} />
       </td>
       <td>
         <button
           type="button"
           className="btn btn-danger"
-          onClick={() => onClick(data._id)}
+          onClick={() => onClick(movie._id)}
         >
           Detele
         </button>
