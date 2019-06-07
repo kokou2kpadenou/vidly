@@ -6,6 +6,7 @@ import { paginate } from "../utils/paginate";
 import Pagination from "./common/pagination";
 import ListGroup from "./common/listGroup";
 import MoviesTable from "./moviesTable";
+import StatusMessage from "./common/statusMessage";
 
 class Movies extends Component {
   constructor(props) {
@@ -78,13 +79,6 @@ class Movies extends Component {
   };
 
   render() {
-    if (this.state.movies.length === 0)
-      return (
-        <div className="container">
-          <p>There are no movies in the database.</p>
-        </div>
-      );
-
     return (
       <div className="row">
         <div className="col-3">
@@ -95,24 +89,25 @@ class Movies extends Component {
           />
         </div>
         <div className="col">
-          <p className="">{`Showing ${
-            this.getSettings().actualMovieCount
-          } movies in the database.`}</p>
+          <StatusMessage
+            count={this.getSettings().actualMovieCount}
+            group={this.state.selectedGenreId}
+          >
+            <MoviesTable
+              movies={this.getSettings().movies}
+              sortColumn={this.state.sortColumn}
+              onDelete={this.handleClickDelete}
+              onLike={this.HandleLike}
+              onSort={this.HandleSort}
+            />
 
-          <MoviesTable
-            movies={this.getSettings().movies}
-            sortColumn={this.state.sortColumn}
-            onDelete={this.handleClickDelete}
-            onLike={this.HandleLike}
-            onSort={this.HandleSort}
-          />
-
-          <Pagination
-            itemsCount={this.getSettings().actualMovieCount}
-            pageSize={this.state.pageSize}
-            currentPage={this.state.currentPage}
-            onPageChange={this.HandlePageChange}
-          />
+            <Pagination
+              itemsCount={this.getSettings().actualMovieCount}
+              pageSize={this.state.pageSize}
+              currentPage={this.state.currentPage}
+              onPageChange={this.HandlePageChange}
+            />
+          </StatusMessage>
         </div>
       </div>
     );
