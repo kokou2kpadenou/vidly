@@ -1,9 +1,10 @@
 import React, { Component } from "react";
+import _ from "lodash";
 import { getMovies } from "../services/fakeMovieService";
 import { getGenres } from "../services/fakeGenreService";
+import { paginate } from "../utils/paginate";
 import Pagination from "./common/pagination";
 import ListGroup from "./common/listGroup";
-import { paginate } from "../utils/paginate";
 import MoviesTable from "./moviesTable";
 
 class Movies extends Component {
@@ -14,7 +15,8 @@ class Movies extends Component {
       genres: [],
       pageSize: 4,
       currentPage: 1,
-      selectedGenreId: "0"
+      selectedGenreId: "0",
+      sortColumn: { path: "title", order: "asc" }
     };
   }
 
@@ -48,14 +50,11 @@ class Movies extends Component {
     }));
   };
 
-  render() {
-    if (this.state.movies.length === 0)
-      return (
-        <div className="container">
-          <p>There are no movies in the database.</p>
-        </div>
-      );
+  HandleSort = sortColumn => {
+    this.setState({ sortColumn });
+  };
 
+  getSettings = () => {
     const filtered =
       this.state.selectedGenreId === "0"
         ? this.state.movies
@@ -63,11 +62,28 @@ class Movies extends Component {
             movie => movie.genre._id === this.state.selectedGenreId
           );
 
-    const movies = paginate(
+    const sorted = _.orderBy(
       filtered,
+      this.state.sortColumn.path,
+      this.state.sortColumn.order
+    );
+
+    const movies = paginate(
+      sorted,
       this.state.currentPage,
       this.state.pageSize
     );
+
+    return { actualMovieCount: filtered.length, movies };
+  };
+
+  render() {
+    if (this.state.movies.length === 0)
+      return (
+        <div className="container">
+          <p>There are no movies in the database.</p>
+        </div>
+      );
 
     return (
       <div className="row">
@@ -80,17 +96,19 @@ class Movies extends Component {
         </div>
         <div className="col">
           <p className="">{`Showing ${
-            filtered.length
+            this.getSettings().actualMovieCount
           } movies in the database.`}</p>
 
           <MoviesTable
-            movies={movies}
-            onClick={this.handleClickDelete}
+            movies={this.getSettings().movies}
+            sortColumn={this.state.sortColumn}
+            onDelete={this.handleClickDelete}
             onLike={this.HandleLike}
+            onSort={this.HandleSort}
           />
 
           <Pagination
-            itemsCount={filtered.length}
+            itemsCount={this.getSettings().actualMovieCount}
             pageSize={this.state.pageSize}
             currentPage={this.state.currentPage}
             onPageChange={this.HandlePageChange}
