@@ -45,9 +45,14 @@ class Movies extends Component {
     }));
   };
 
-  handleClickDelete = movieID => {
+  handleDelete = movieID => {
     this.setState(oldState => ({
-      movies: oldState.movies.filter(movie => movie._id !== movieID)
+      movies: oldState.movies.filter(movie => movie._id !== movieID),
+      currentPage:
+        this.getSettings().movies.length === 1 &&
+        oldState.currentPage === this.getSettings().totalPages
+          ? oldState.currentPage - 1
+          : oldState.currentPage
     }));
   };
 
@@ -75,7 +80,13 @@ class Movies extends Component {
       this.state.pageSize
     );
 
-    return { actualMovieCount: filtered.length, movies };
+    const totalPages = Math.ceil(filtered.length / this.state.pageSize);
+
+    return {
+      actualMovieCount: filtered.length,
+      totalPages,
+      movies
+    };
   };
 
   render() {
@@ -96,14 +107,13 @@ class Movies extends Component {
             <MoviesTable
               movies={this.getSettings().movies}
               sortColumn={this.state.sortColumn}
-              onDelete={this.handleClickDelete}
+              onDelete={this.handleDelete}
               onLike={this.HandleLike}
               onSort={this.HandleSort}
             />
 
             <Pagination
-              itemsCount={this.getSettings().actualMovieCount}
-              pageSize={this.state.pageSize}
+              totalPages={this.getSettings().totalPages}
               currentPage={this.state.currentPage}
               onPageChange={this.HandlePageChange}
             />

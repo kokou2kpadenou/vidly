@@ -2,11 +2,10 @@ import React from "react";
 import _ from "lodash";
 import PropTypes from "prop-types";
 
-const Pagination = ({ itemsCount, pageSize, currentPage, onPageChange }) => {
-  const pagesCount = Math.ceil(itemsCount / pageSize);
-  const pages = _.range(1, pagesCount + 1);
+const Pagination = ({ totalPages, currentPage, onPageChange }) => {
+  const pages = _.range(1, totalPages + 1);
 
-  if (pagesCount <= 1) return null;
+  if (totalPages <= 1) return null;
 
   return (
     <nav>
@@ -31,7 +30,7 @@ const Pagination = ({ itemsCount, pageSize, currentPage, onPageChange }) => {
         ))}
         <li
           className={
-            currentPage === pagesCount ? "page-item disabled" : "page-item"
+            currentPage === totalPages ? "page-item disabled" : "page-item"
           }
         >
           <button
@@ -47,8 +46,7 @@ const Pagination = ({ itemsCount, pageSize, currentPage, onPageChange }) => {
 };
 
 Pagination.propTypes = {
-  itemsCount: PropTypes.number.isRequired,
-  pageSize: PropTypes.number.isRequired,
+  totalPages: PropTypes.number.isRequired,
   currentPage: PropTypes.number.isRequired,
   onPageChange: PropTypes.func.isRequired
 };
