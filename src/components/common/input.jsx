@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const Input = ({ name, label, type, value, onChange, focus }) => {
+const Input = ({ name, label, type, value, error, onChange, focus }) => {
   return (
     <div className="form-group">
       <label htmlFor={name}>{label}</label>
@@ -15,6 +15,7 @@ const Input = ({ name, label, type, value, onChange, focus }) => {
         placeholder={label}
         onChange={onChange}
       />
+      {error && <div className="alert alert-danger">{error}</div>}
     </div>
   );
 };
