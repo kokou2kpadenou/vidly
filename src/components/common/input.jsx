@@ -1,19 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const Input = ({ name, label, type, value, error, onChange, focus }) => {
+const Input = ({ name, label, error, ...rest }) => {
   return (
     <div className="form-group">
       <label htmlFor={name}>{label}</label>
       <input
-        autoFocus={focus}
         id={name}
         name={name}
-        type={type}
-        value={value}
-        className="form-control"
         placeholder={label}
-        onChange={onChange}
+        {...rest}
+        className="form-control"
       />
       {error && <div className="alert alert-danger">{error}</div>}
     </div>
@@ -22,7 +19,7 @@ const Input = ({ name, label, type, value, error, onChange, focus }) => {
 
 Input.defaultProps = {
   type: "text",
-  focus: false
+  autoFocus: false
 };
 
 Input.propTypes = {
