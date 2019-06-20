@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import _ from "lodash";
 import { getMovies } from "../services/fakeMovieService";
 import { getGenres } from "../services/fakeGenreService";
@@ -100,6 +101,9 @@ class Movies extends Component {
           />
         </div>
         <div className="col">
+          <Link className="btn btn-primary" to="/movies/new">
+            New Movie
+          </Link>
           <StatusMessage
             count={this.getSettings().actualMovieCount}
             group={this.state.selectedGenreId}
