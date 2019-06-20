@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import _ from "lodash";
 import { getMovies } from "../services/fakeMovieService";
 import { getGenres } from "../services/fakeGenreService";
@@ -6,7 +7,7 @@ import { paginate } from "../utils/paginate";
 import Pagination from "./common/pagination";
 import ListGroup from "./common/listGroup";
 import MoviesTable from "./moviesTable";
-import StatusMessage from "./common/statusMessage";
+import StatusMessage from "./statusMessage";
 
 class Movies extends Component {
   constructor(props) {
@@ -17,7 +18,8 @@ class Movies extends Component {
       pageSize: 4,
       currentPage: 1,
       selectedGenreId: "0",
-      sortColumn: { path: "title", order: "asc" }
+      sortColumn: { path: "title", order: "asc" },
+      searchField: ""
     };
   }
 
@@ -26,8 +28,20 @@ class Movies extends Component {
     this.setState({ movies: getMovies(), genres });
   }
 
+  handleSearch = query => {
+    this.setState({
+      searchField: query,
+      selectedGenreId: query === "" ? "0" : "",
+      currentPage: 1
+    });
+  };
+
   handleGenreSelect = genreId => {
-    this.setState({ selectedGenreId: genreId, currentPage: 1 });
+    this.setState({
+      selectedGenreId: genreId,
+      currentPage: 1,
+      searchField: ""
+    });
   };
 
   HandlePageChange = page => {
@@ -62,7 +76,13 @@ class Movies extends Component {
 
   getSettings = () => {
     const filtered =
-      this.state.selectedGenreId === "0"
+      this.state.selectedGenreId === ""
+        ? this.state.movies.filter(movie =>
+            new RegExp("^" + this.state.searchField.toLowerCase(), "i").test(
+              movie.title.toLowerCase()
+            )
+          )
+        : this.state.selectedGenreId === "0"
         ? this.state.movies
         : this.state.movies.filter(
             movie => movie.genre._id === this.state.selectedGenreId
@@ -100,9 +120,19 @@ class Movies extends Component {
           />
         </div>
         <div className="col">
+          <Link className="btn btn-primary mb-3" to="/movies/new">
+            New Movie
+          </Link>
           <StatusMessage
             count={this.getSettings().actualMovieCount}
-            group={this.state.selectedGenreId}
+            group={{
+              genreId: this.state.selectedGenreId,
+              genres: this.state.genres
+            }}
+            searchField={{
+              value: this.state.searchField,
+              onChange: this.handleSearch
+            }}
           >
             <MoviesTable
               movies={this.getSettings().movies}
