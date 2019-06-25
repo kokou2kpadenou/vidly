@@ -9,6 +9,7 @@ const SearchField = ({ value, onChange }) => {
       value={value}
       className="form-control my-3"
       placeholder="Search..."
+      aria-label="Search field"
       onChange={e => onChange(e.target.value)}
     />
   );
