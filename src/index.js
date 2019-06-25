@@ -4,10 +4,13 @@ import { BrowserRouter } from "react-router-dom";
 import "./index.css";
 import App from "./app";
 import * as serviceWorker from "./serviceWorker";
+import logger from "./services/logService";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "jquery";
 import "bootstrap/dist/js/bootstrap.bundle";
 import "font-awesome/css/font-awesome.css";
+
+logger.init();
 
 ReactDOM.render(
   <BrowserRouter>
