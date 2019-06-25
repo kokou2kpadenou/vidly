@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import _ from "lodash";
-import { getMovies } from "../services/fakeMovieService";
-import { getGenres } from "../services/fakeGenreService";
+import { getMovies, deleteMovie } from "../services/movieService";
+import { getGenres } from "../services/genreService";
 import { paginate } from "../utils/paginate";
 import Pagination from "./common/pagination";
 import ListGroup from "./common/listGroup";
 import MoviesTable from "./moviesTable";
 import StatusMessage from "./statusMessage";
+import { toast } from "react-toastify";
 
 class Movies extends Component {
   constructor(props) {
@@ -23,9 +24,15 @@ class Movies extends Component {
     };
   }
 
-  componentDidMount() {
-    const genres = [{ name: "All Genres", _id: "0" }, ...getGenres()];
-    this.setState({ movies: getMovies(), genres });
+  async componentDidMount() {
+    let { data: genres } = await getGenres();
+    const { data: movies } = await getMovies();
+    // const request = Promise.all([genresRequest, moviesRequest]);
+    // console.log(request);
+    // console.log(request[0].data);
+
+    genres = [{ name: "All Genres", _id: "0" }, ...genres];
+    this.setState({ movies, genres });
   }
 
   handleSearch = query => {
@@ -59,7 +66,9 @@ class Movies extends Component {
     }));
   };
 
-  handleDelete = movieID => {
+  handleDelete = async movieID => {
+    const originalMovies = { ...this.state.movies };
+    const originalCurrentPage = { ...this.state.currentPage };
     this.setState(oldState => ({
       movies: oldState.movies.filter(movie => movie._id !== movieID),
       currentPage:
@@ -68,6 +77,17 @@ class Movies extends Component {
           ? oldState.currentPage - 1
           : oldState.currentPage
     }));
+
+    try {
+      await deleteMovie(movieID);
+    } catch (error) {
+      if (error.reponse && error.response.status === 404)
+        toast.error("this movie has already been deleted.");
+      this.setState({
+        movies: originalMovies,
+        currentPage: originalCurrentPage
+      });
+    }
   };
 
   HandleSort = sortColumn => {
