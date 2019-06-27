@@ -3,8 +3,11 @@ import { NavLink, Link } from "react-router-dom";
 
 const NavBar = () => {
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+    <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top">
       <Link className="navbar-brand" to="/">
+        <svg className="icon icon-vynil align-top mr-2">
+          <use xlinkHref="#icon-vynil" href="#icon-vynil" />
+        </svg>
         Vidly
       </Link>
       <button

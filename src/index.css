@@ -1,7 +1,24 @@
 .container {
-  margin-top: 40px;
+  margin-top: 70px;
 }
 
 .clickable {
   cursor: pointer;
+}
+
+.icon {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  stroke-width: 0;
+  color: #dc3545;
+  stroke: currentColor;
+  fill: currentColor;
+}
+
+.navbar-brand:hover {
+  color: #c82333 !important;
+}
+.navbar-brand:hover .icon {
+  transform: rotate(90deg);
 }
