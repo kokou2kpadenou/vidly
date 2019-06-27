@@ -16,7 +16,7 @@ class Movies extends Component {
     this.state = {
       movies: [],
       genres: [],
-      pageSize: 4,
+      pageSize: 6,
       currentPage: 1,
       selectedGenreId: "0",
       sortColumn: { path: "title", order: "asc" },
@@ -132,7 +132,7 @@ class Movies extends Component {
   render() {
     return (
       <div className="row">
-        <div className="col-3">
+        <div className="col col-md-3 mb-3">
           <ListGroup
             items={this.state.genres}
             selectedItem={this.state.selectedGenreId}
