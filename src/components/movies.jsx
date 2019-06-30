@@ -140,9 +140,12 @@ class Movies extends Component {
           />
         </div>
         <div className="col">
-          <Link className="btn btn-primary mb-3" to="/movies/new">
-            New Movie
-          </Link>
+          {this.props.user && (
+            <Link className="btn btn-primary mb-3" to="/movies/new">
+              New Movie
+            </Link>
+          )}
+
           <StatusMessage
             count={this.getSettings().actualMovieCount}
             group={{
