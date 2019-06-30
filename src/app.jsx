@@ -9,20 +9,35 @@ import NotFound from "./components/notFound";
 import MovieForm from "./components/movieForm";
 import LoginForm from "./components/loginForm";
 import RegisterForm from "./components/registerForm";
+import Logout from "./components/logout";
+import auth from "./services/authService";
 import "react-toastify/dist/ReactToastify.css";
+import ProtectedRoute from "./components/common/protectedRoute";
 
 class App extends Component {
+  state = {};
+
+  componentDidMount() {
+    const user = auth.getCurrentUser();
+    console.log(user);
+
+    this.setState({ user });
+  }
   render() {
     return (
       <React.Fragment>
         <ToastContainer />
-        <NavBar />
+        <NavBar user={this.state.user} />
         <main className="container">
           <Switch>
             <Route path="/register" component={RegisterForm} />
             <Route path="/login" component={LoginForm} />
-            <Route path="/movies/:id" component={MovieForm} />
-            <Route path="/movies" component={Movies} />
+            <Route path="/logout" component={Logout} />
+            <ProtectedRoute path="/movies/:id" component={MovieForm} />
+            <Route
+              path="/movies"
+              render={props => <Movies user={this.state.user} {...props} />}
+            />
             <Route path="/customers" component={Customers} />
             <Route path="/rentals" component={Rentals} />
             <Route path="/not-found" component={NotFound} />
