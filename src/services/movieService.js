@@ -1,7 +1,6 @@
 import http from "./httpService";
-import config from "../config.json";
 
-const moviesURL = `${config.apiEndPoint}/movies`;
+const moviesURL = "movies";
 
 function movieURL(movieId) {
   return `${moviesURL}/${movieId}`;
