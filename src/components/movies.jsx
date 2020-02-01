@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import _ from "lodash";
 import { getMovies, deleteMovie } from "../services/movieService";
 import { getGenres } from "../services/genreService";
@@ -8,7 +9,7 @@ import Pagination from "./common/pagination";
 import ListGroup from "./common/listGroup";
 import MoviesTable from "./moviesTable";
 import StatusMessage from "./statusMessage";
-import { toast } from "react-toastify";
+import PreloadingScreen from "./common/preloadingScreen";
 
 class Movies extends Component {
   constructor(props) {
@@ -27,9 +28,6 @@ class Movies extends Component {
   async componentDidMount() {
     let { data: genres } = await getGenres();
     const { data: movies } = await getMovies();
-    // const request = Promise.all([genresRequest, moviesRequest]);
-    // console.log(request);
-    // console.log(request[0].data);
 
     genres = [{ name: "All Genres", _id: "0" }, ...genres];
     this.setState({ movies, genres });
@@ -130,6 +128,9 @@ class Movies extends Component {
   };
 
   render() {
+    if (this.state.genres.length <= 0) {
+      return <PreloadingScreen />;
+    }
     return (
       <div className="row">
         <div className="col col-md-3 mb-3">

@@ -10,19 +10,19 @@ import MovieForm from "./components/movieForm";
 import LoginForm from "./components/loginForm";
 import RegisterForm from "./components/registerForm";
 import Logout from "./components/logout";
+import ProtectedRoute from "./components/common/protectedRoute";
+import Profile from "./components/profile";
 import auth from "./services/authService";
 import "react-toastify/dist/ReactToastify.css";
-import ProtectedRoute from "./components/common/protectedRoute";
 
 class App extends Component {
   state = {};
 
   componentDidMount() {
     const user = auth.getCurrentUser();
-    console.log(user);
-
     this.setState({ user });
   }
+
   render() {
     return (
       <React.Fragment>
@@ -40,6 +40,7 @@ class App extends Component {
             />
             <Route path="/customers" component={Customers} />
             <Route path="/rentals" component={Rentals} />
+            <Route path="/profile" component={Profile} />
             <Route path="/not-found" component={NotFound} />
             <Redirect exact from="/" to="/movies" />
             <Redirect to="/not-found" />
