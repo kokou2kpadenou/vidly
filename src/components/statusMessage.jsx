@@ -2,15 +2,16 @@ import React from "react";
 import _ from "lodash";
 import SearchField from "./common/searchField";
 
-const StatusMessage = ({ count, group, searchField, children }) => {
+const StatusMessage = ({ item, count, group, searchField, children }) => {
   let message;
   // Message when the number of movies returned egal 0
   if (count === 0) {
     if (group.genreId === "")
-      message = "Search return no movie from the database.";
-    if (group.genreId === "0") message = "There are no movies in the database.";
+      message = `Search return no ${item} from the database.`;
+    if (group.genreId === "0")
+      message = `There are no ${item}s in the database.`;
     if (group.genreId !== "" && group.genreId !== "0")
-      message = "There are no movies of this genre in the database.";
+      message = `There are no ${item}s of this genre in the database.`;
     return (
       <React.Fragment>
         <p>
@@ -29,13 +30,13 @@ const StatusMessage = ({ count, group, searchField, children }) => {
 
   // Message when the number of movies returned is more than 0.
   if (group.genreId === "")
-    message = `Search showing ${count} movies in the database.`;
+    message = `Search showing ${count} ${item}s in the database.`;
   if (group.genreId === "0")
-    message = `Showing ${count} movies in the database.`;
+    message = `Showing ${count} ${item}s in the database.`;
   if (group.genreId !== "" && group.genreId !== "0") {
     const genre = _.find(group.genres, { _id: group.genreId }).name;
 
-    message = `Showing ${count} ${genre} movies in the database.`;
+    message = `Showing ${count} ${genre} ${item}s in the database.`;
   }
   return (
     <React.Fragment>
