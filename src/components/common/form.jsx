@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Joi from "joi-browser";
 import Input from "./input";
 import Select from "./select";
+import Checkbox from "./checkbox";
 
 class Form extends Component {
   state = { data: {}, errors: {} };
@@ -22,8 +23,8 @@ class Form extends Component {
     return errors;
   };
 
-  validateProperty = ({ name, value }) => {
-    const obj = { [name]: value };
+  validateProperty = ({ name, value, checked, type }) => {
+    const obj = { [name]: type === "checkbox" ? checked : value };
     const schema = { [name]: this.schema[name] };
     const { error } = Joi.validate(obj, schema);
     return error ? error.details[0].message : null;
@@ -45,7 +46,8 @@ class Form extends Component {
     else delete errors[input.name];
 
     const data = { ...this.state.data };
-    data[input.name] = input.value;
+
+    data[input.name] = input.type === "checkbox" ? input.checked : input.value;
     this.setState({
       data,
       errors
@@ -88,6 +90,18 @@ class Form extends Component {
         error={this.state.errors[name]}
         onChange={this.handleChange}
         autoFocus={focus}
+      />
+    );
+  }
+
+  renderCheckbox(name, label) {
+    return (
+      <Checkbox
+        name={name}
+        label={label}
+        checked={this.state.data[name]}
+        error={this.state.errors[name]}
+        onChange={this.handleChange}
       />
     );
   }
