@@ -1,19 +1,21 @@
-import React, { Component } from "react";
+import React, { Component, lazy, Suspense } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import Movies from "./components/movies";
+
 import NavBar from "./components/navBar";
-import Rentals from "./components/rentals";
-import Customers from "./components/customers";
-import NotFound from "./components/notFound";
-import MovieForm from "./components/movieForm";
-import LoginForm from "./components/loginForm";
-import RegisterForm from "./components/registerForm";
-import Logout from "./components/logout";
-import ProtectedRoute from "./components/common/protectedRoute";
-import Profile from "./components/profile";
+import Logout from "./components/user/logout";
 import auth from "./services/authService";
 import "react-toastify/dist/ReactToastify.css";
+const Movies = lazy(() => import("./components/movies/movies"));
+const Rentals = lazy(() => import("./components/rentals/rentals"));
+const Customers = lazy(() => import("./components/customers/customers"));
+const CustomerForm = lazy(() => import("./components/customers/customerForm"));
+const MovieForm = lazy(() => import("./components/movies/movieForm"));
+const NotFound = lazy(() => import("./components/notFound"));
+const LoginForm = lazy(() => import("./components/user/loginForm"));
+const RegisterForm = lazy(() => import("./components/user/registerForm"));
+const ProtectedRoute = lazy(() => import("./components/common/protectedRoute"));
+const Profile = lazy(() => import("./components/user/profile"));
 
 class App extends Component {
   state = {};
@@ -29,22 +31,30 @@ class App extends Component {
         <ToastContainer />
         <NavBar user={this.state.user} />
         <main className="container">
-          <Switch>
-            <Route path="/register" component={RegisterForm} />
-            <Route path="/login" component={LoginForm} />
-            <Route path="/logout" component={Logout} />
-            <ProtectedRoute path="/movies/:id" component={MovieForm} />
-            <Route
-              path="/movies"
-              render={props => <Movies user={this.state.user} {...props} />}
-            />
-            <Route path="/customers" component={Customers} />
-            <Route path="/rentals" component={Rentals} />
-            <Route path="/profile" component={Profile} />
-            <Route path="/not-found" component={NotFound} />
-            <Redirect exact from="/" to="/movies" />
-            <Redirect to="/not-found" />
-          </Switch>
+          <Suspense fallback={<div>Loading page...</div>}>
+            <Switch>
+              <Route path="/register" component={RegisterForm} />
+              <Route path="/login" component={LoginForm} />
+              <Route path="/logout" component={Logout} />
+              <ProtectedRoute path="/movies/:id" component={MovieForm} />
+              <Route
+                path="/movies"
+                render={props => <Movies user={this.state.user} {...props} />}
+              />
+              <ProtectedRoute path="/customers/:id" component={CustomerForm} />
+              <Route
+                path="/customers"
+                render={props => (
+                  <Customers user={this.state.user} {...props} />
+                )}
+              />
+              <Route path="/rentals" component={Rentals} />
+              <Route path="/profile" component={Profile} />
+              <Route path="/not-found" component={NotFound} />
+              <Redirect exact from="/" to="/movies" />
+              <Redirect to="/not-found" />
+            </Switch>
+          </Suspense>
         </main>
       </React.Fragment>
     );
