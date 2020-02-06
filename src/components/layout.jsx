@@ -5,7 +5,7 @@ import Pagination from "./common/pagination";
 const Layout = ({ data, children }) => {
   return (
     <div className="row">
-      <div className="col col-md-3 mb-3">{data.groups}</div>
+      {data.groups && <div className="col col-md-3 mb-3">{data.groups}</div>}
       <div className="col">
         {data.buttons}
         <StatusMessage
