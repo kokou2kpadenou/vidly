@@ -23,7 +23,7 @@
   transform: rotate(90deg);
 }
 
-.preloading {
+.spinner {
   position: fixed;
   left: 0;
   right: 0;
