@@ -20,7 +20,6 @@ export function getCustomer(customerId) {
 
 export function saveCustomer(customer) {
   // put if exist
-  console.log(customer);
 
   if (customer._id) {
     const body = { ...customer };
