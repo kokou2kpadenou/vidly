@@ -1,13 +1,16 @@
 import React, { Component, lazy, Suspense } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import Spinner from "./components/common/spinner";
 
 import NavBar from "./components/navBar";
 import Logout from "./components/user/logout";
 import auth from "./services/authService";
 import "react-toastify/dist/ReactToastify.css";
+
 const Movies = lazy(() => import("./components/movies/movies"));
 const Rentals = lazy(() => import("./components/rentals/rentals"));
+const RentalForm = lazy(() => import("./components/rentals/rentalForm"));
 const Customers = lazy(() => import("./components/customers/customers"));
 const CustomerForm = lazy(() => import("./components/customers/customerForm"));
 const MovieForm = lazy(() => import("./components/movies/movieForm"));
@@ -29,6 +32,7 @@ class App extends Component {
     return (
       <React.Fragment>
         <ToastContainer />
+        <Spinner />
         <NavBar user={this.state.user} />
         <main className="container">
           <Suspense fallback={<div>Loading page...</div>}>
@@ -48,7 +52,11 @@ class App extends Component {
                   <Customers user={this.state.user} {...props} />
                 )}
               />
-              <Route path="/rentals" component={Rentals} />
+              <ProtectedRoute path="/rentals/:id" component={RentalForm} />
+              <Route
+                path="/rentals"
+                render={props => <Rentals user={this.state.user} {...props} />}
+              />
               <Route path="/profile" component={Profile} />
               <Route path="/not-found" component={NotFound} />
               <Redirect exact from="/" to="/movies" />
