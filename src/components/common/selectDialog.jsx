@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import ErrorBoundary from "./errorBoundary";
 
 const SelectDialog = ({ title, id, value, label, children }) => {
   return (
@@ -18,7 +19,9 @@ const SelectDialog = ({ title, id, value, label, children }) => {
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <div className="modal-body">{children}</div>
+            <div className="modal-body">
+              <ErrorBoundary>{children}</ErrorBoundary>
+            </div>
             <div className="modal-footer">
               <button
                 type="button"
