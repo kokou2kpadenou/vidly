@@ -1,7 +1,7 @@
 import _ from "lodash";
 
 export const dateFormating = date => {
-  return date ? new Date(date).toDateString().slice(4) : null;
+  return date ? new Date(date).toDateString().slice(4) : "";
 };
 
 export const feeUpToday = (dateOut, dailyRate) => {
