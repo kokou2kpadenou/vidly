@@ -1,8 +1,9 @@
 import React from "react";
 import Joi from "joi-browser";
-import { getGenres } from "../services/genreService";
-import { getMovie, saveMovie } from "../services/movieService";
-import Form from "./common/form";
+import { getGenres } from "../../services/genreService";
+import { getMovie, saveMovie } from "../../services/movieService";
+import Form from "../common/form";
+import ButtonCancel from "../common/buttonCancel";
 
 class MovieForm extends Form {
   state = {
@@ -81,6 +82,7 @@ class MovieForm extends Form {
           {this.renderInput("numberInStock", "Number in Stock", "number")}
           {this.renderInput("dailyRentalRate", "Rate")}
           {this.renderButton("Save")}
+          <ButtonCancel back={() => this.props.history.push("/movies")} />
         </form>
       </div>
     );
