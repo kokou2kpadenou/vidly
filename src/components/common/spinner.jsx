@@ -7,7 +7,7 @@ const Spinner = () => {
   return (
     promiseInProgress && (
       <div className="spinner">
-        <Loader type="ThreeDots" color="#ff0000" height="100" width="100" />
+        <Loader type="ThreeDots" color="#ff0000" height={100} width={100} />
       </div>
     )
   );
