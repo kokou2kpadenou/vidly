@@ -2,6 +2,7 @@ import React, { Component, lazy, Suspense } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import Spinner from "./components/common/spinner";
+import ErrorBoundary from "./components/common/errorBoundary";
 
 import NavBar from "./components/navBar";
 import Logout from "./components/user/logout";
@@ -35,34 +36,41 @@ class App extends Component {
         <Spinner />
         <NavBar user={this.state.user} />
         <main className="container">
-          <Suspense fallback={<div>Loading page...</div>}>
-            <Switch>
-              <Route path="/register" component={RegisterForm} />
-              <Route path="/login" component={LoginForm} />
-              <Route path="/logout" component={Logout} />
-              <ProtectedRoute path="/movies/:id" component={MovieForm} />
-              <Route
-                path="/movies"
-                render={props => <Movies user={this.state.user} {...props} />}
-              />
-              <ProtectedRoute path="/customers/:id" component={CustomerForm} />
-              <Route
-                path="/customers"
-                render={props => (
-                  <Customers user={this.state.user} {...props} />
-                )}
-              />
-              <ProtectedRoute path="/rentals/:id" component={RentalForm} />
-              <Route
-                path="/rentals"
-                render={props => <Rentals user={this.state.user} {...props} />}
-              />
-              <Route path="/profile" component={Profile} />
-              <Route path="/not-found" component={NotFound} />
-              <Redirect exact from="/" to="/movies" />
-              <Redirect to="/not-found" />
-            </Switch>
-          </Suspense>
+          <ErrorBoundary>
+            <Suspense fallback={<div>Loading page...</div>}>
+              <Switch>
+                <Route path="/register" component={RegisterForm} />
+                <Route path="/login" component={LoginForm} />
+                <Route path="/logout" component={Logout} />
+                <ProtectedRoute path="/movies/:id" component={MovieForm} />
+                <Route
+                  path="/movies"
+                  render={props => <Movies user={this.state.user} {...props} />}
+                />
+                <ProtectedRoute
+                  path="/customers/:id"
+                  component={CustomerForm}
+                />
+                <Route
+                  path="/customers"
+                  render={props => (
+                    <Customers user={this.state.user} {...props} />
+                  )}
+                />
+                <ProtectedRoute path="/rentals/:id" component={RentalForm} />
+                <Route
+                  path="/rentals"
+                  render={props => (
+                    <Rentals user={this.state.user} {...props} />
+                  )}
+                />
+                <Route path="/profile" component={Profile} />
+                <Route path="/not-found" component={NotFound} />
+                <Redirect exact from="/" to="/movies" />
+                <Redirect to="/not-found" />
+              </Switch>
+            </Suspense>
+          </ErrorBoundary>
         </main>
       </React.Fragment>
     );
