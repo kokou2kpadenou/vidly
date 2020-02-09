@@ -1,7 +1,6 @@
 import React, { Component, lazy, Suspense } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import Spinner from "./components/common/spinner";
 import ErrorBoundary from "./components/common/errorBoundary";
 
 import NavBar from "./components/navBar";
@@ -33,7 +32,6 @@ class App extends Component {
     return (
       <React.Fragment>
         <ToastContainer />
-        <Spinner />
         <NavBar user={this.state.user} />
         <main className="container">
           <ErrorBoundary>
