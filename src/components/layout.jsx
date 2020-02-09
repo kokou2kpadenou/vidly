@@ -5,7 +5,7 @@ import Spinner from "./common/spinner";
 
 const Layout = ({ data, area, children }) => {
   return (
-    <div className="row">
+    <div className="row" style={{ position: "relative" }}>
       <Spinner area={area} />
       {data.groups && <div className="col col-md-3 mb-3">{data.groups}</div>}
       <div className="col">
