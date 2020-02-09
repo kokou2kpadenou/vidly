@@ -13,7 +13,7 @@ class Customers extends Shape {
       searchFieldName: "name",
       deleteData: { deleteFnc: deleteCustomer, deleteItem: "customer" }
     });
-    const { data: elements } = await trackPromise(getCustomers());
+    const { data: elements } = await trackPromise(getCustomers(), "customers");
 
     const genres = [
       { name: "All Customers", _id: "0" },
@@ -35,7 +35,7 @@ class Customers extends Shape {
     };
 
     return (
-      <Layout data={data}>
+      <Layout data={data} area="customers">
         <CustmersTable
           customers={this.getSettings().elements}
           sortColumn={this.state.sortColumn}
