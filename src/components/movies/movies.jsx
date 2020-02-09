@@ -14,8 +14,8 @@ class Movies extends Shape {
       searchFieldName: "title"
     });
 
-    let { data: genres } = await trackPromise(getGenres());
-    const { data: elements } = await trackPromise(getMovies());
+    let { data: genres } = await trackPromise(getGenres(), "movies");
+    const { data: elements } = await trackPromise(getMovies(), "movies");
 
     genres = [{ name: "All Genres", _id: "0" }, ...genres];
     this.setState({ elements, genres });
@@ -33,7 +33,7 @@ class Movies extends Shape {
     };
 
     return (
-      <Layout data={data}>
+      <Layout data={data} area="movies">
         <MoviesTable
           movies={this.getSettings().elements}
           sortColumn={this.state.sortColumn}
