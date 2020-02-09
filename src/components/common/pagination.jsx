@@ -14,8 +14,9 @@ const Pagination = ({ totalPages, currentPage, onPageChange }) => {
           <button
             className="page-link"
             onClick={() => onPageChange(currentPage - 1)}
+            aria-label="Previous"
           >
-            Previous
+            <i className="fa fa-chevron-left" aria-hidden="true"></i>
           </button>
         </li>
         {pages.map(page => (
@@ -36,8 +37,9 @@ const Pagination = ({ totalPages, currentPage, onPageChange }) => {
           <button
             className="page-link"
             onClick={() => onPageChange(currentPage + 1)}
+            aria-label="Next"
           >
-            Next
+            <i className="fa fa-chevron-right" aria-hidden="true"></i>
           </button>
         </li>
       </ul>
