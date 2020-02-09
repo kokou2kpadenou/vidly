@@ -12,7 +12,10 @@ class Customers extends Shape {
       searchFieldName: "name",
       pageSize: 4
     });
-    const { data: elements } = await trackPromise(getCustomers());
+    const { data: elements } = await trackPromise(
+      getCustomers(),
+      "search-customer"
+    );
 
     const genres = [
       { name: "All Customers", _id: "0" },
@@ -30,7 +33,7 @@ class Customers extends Shape {
     };
 
     return (
-      <Layout data={data}>
+      <Layout data={data} area="search-customer">
         <CustmersTable
           customers={this.getSettings().elements}
           sortColumn={this.state.sortColumn}
