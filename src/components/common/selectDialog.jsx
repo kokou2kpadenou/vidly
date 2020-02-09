@@ -19,7 +19,7 @@ const SelectDialog = ({ title, id, value, label, children }) => {
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <div className="modal-body">
+            <div className="modal-body" style={{ minHeight: "150px" }}>
               <ErrorBoundary>{children}</ErrorBoundary>
             </div>
             <div className="modal-footer">
