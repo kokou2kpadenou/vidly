@@ -1,10 +1,12 @@
 import React from "react";
 import StatusMessage from "./statusMessage";
 import Pagination from "./common/pagination";
+import Spinner from "./common/spinner";
 
-const Layout = ({ data, children }) => {
+const Layout = ({ data, area, children }) => {
   return (
     <div className="row">
+      <Spinner area={area} />
       {data.groups && <div className="col col-md-3 mb-3">{data.groups}</div>}
       <div className="col">
         {data.buttons}
