@@ -2,8 +2,12 @@ import React from "react";
 import { usePromiseTracker } from "react-promise-tracker";
 import Loader from "react-loader-spinner";
 
-const Spinner = () => {
-  const { promiseInProgress } = usePromiseTracker({ delay: 500 });
+const Spinner = ({ area }) => {
+  const { promiseInProgress } = usePromiseTracker({
+    area: area,
+    delay: 500
+  });
+
   return (
     promiseInProgress && (
       <div className="spinner">
