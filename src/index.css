@@ -23,3 +23,8 @@
 .navbar-brand:hover .icon {
   transform: rotate(90deg);
 }
+
+.spinner {
+  min-height: 400px;
+  z-index: 10;
+}
