@@ -3,9 +3,11 @@ import _ from "lodash";
 import { usePromiseTracker } from "react-promise-tracker";
 import SearchField from "./common/searchField";
 
-const StatusMessage = ({ item, count, group, searchField, children }) => {
+const StatusMessage = ({ item, count, group, searchField, area, children }) => {
   let message;
   // Message when the number of movies returned egal 0
+  const { promiseInProgress } = usePromiseTracker({ area });
+
   if (count === 0) {
     if (group.genreId === "")
       message = `Search return no ${item} from the database.`;
@@ -15,7 +17,7 @@ const StatusMessage = ({ item, count, group, searchField, children }) => {
       message = `There are no ${item}s of this genre in the database.`;
     return (
       <React.Fragment>
-        {!usePromiseTracker && (
+        {!promiseInProgress && (
           <p>
             <span className="badge badge-warning">
               {/* There are no movies in the database. */}

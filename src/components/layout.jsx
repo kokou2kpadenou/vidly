@@ -15,6 +15,7 @@ const Layout = ({ data, area, children }) => {
           count={data.count}
           group={data.group}
           searchField={data.searchField}
+          area={area}
         >
           {children}
 
